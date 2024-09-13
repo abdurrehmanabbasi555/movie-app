@@ -1,0 +1,130 @@
+IMPORTANT IF INSTALLATION ERROR OCCURS:
+//If npx create-react-app app-name cmd throws an ENOENT ERR error then update npm using :npm install -g npm@latest cmd
+
+
+IMPORTANT INFO ABOUT FILE, FOLDER STRUCTURE OF REACT APP:
+//1. public/ Folder
+Purpose: Is folder mein wo files hoti hain jo directly serve ki jati hain when your app runs in the browser.
+Important Files:
+index.html: Ye main HTML file hoti hai jahan React app mount hoti hai. Ye ek empty <div id="root"></div> element contain karta hai jahan saari React components render hoti hain.
+favicon.ico: Ye tab icon hota hai jo browser tab pe show hota hai.
+manifest.json: Ye file browser ko help karti hai in understanding how your app should behave when installed on a mobile device or desktop.
+
+//2. src/ Folder
+Purpose: Ye folder hai jahan saari source code hoti hai, including components, assets, and styles.
+Important Files:
+index.js or index.tsx: Ye entry point file hai for the React app. Is file mein React DOM ko index.html ke root element pe mount kiya jata hai. Yahan se React ka pura component tree start hota hai.
+App.js or App.tsx: Ye main React component hai jo tumhari application ka base structure define karta hai. Is file mein tum apne baaki components ko include karte ho.
+index.css: Global styles ke liye use hoti hai jo tumhari pure React app pe apply hoti hain.
+App.css: Ye specific styles ke liye hoti hai jo App.js component pe apply hoti hain.
+
+//3. Components Folder (Optional but Recommended)
+Purpose: Yeh folder tumhare app ke individual components ko manage karta hai. Har component ka apna folder aur files ho sakti hain jahan tum Component.js, Component.css, aur Component.test.js rakh sakte ho.
+Example:
+Header.js: Header component jo app ke upar dikhai dega.
+Footer.js: Footer component jo app ke neeche hoga.
+
+//4. node_modules/ Folder
+Purpose: Ye folder automatically create hota hai jab tum npm install ya yarn install chalate ho. Isme saari dependencies hoti hain jo tumhare React app ke liye zaroori hoti hain. Normally, tumhe is folder ko directly modify nahi karna chahiye.
+
+//5. package.json
+Purpose: Ye file tumhare project ke baare mein important information contain karti hai, like project name, version, description, scripts, and dependencies.
+Important Sections:
+dependencies: Ye wo libraries aur frameworks hain jo tumhare project mein use ho rahi hain (e.g., React, ReactDOM).
+scripts: Ye tumhare project ko run, build, test, etc. karne ke liye commands hoti hain. Jaise npm start, npm build.
+
+//6. package-lock.json
+Purpose: Ye file dependencies ke exact versions ko lock karne ke liye hoti hai, taake jab koi aur tumhara project clone kare aur install kare, to exactly same versions install ho jayein jo tumhare local environment mein hain.
+
+//7. .gitignore
+Purpose: Ye file define karti hai ke kaunse files aur folders ko git mein track nahi karna chahiye. Typically, node_modules/ aur build/ folders isme included hoti hain.
+
+//8. README.md
+Purpose: Ye documentation file hoti hai jo project ke baare mein information deti hai. Jaise kaise setup karna hai, kaunse scripts use karne hain, etc.
+
+//9. build/ Folder
+Purpose: Ye folder production build ke liye hota hai. Jab tum apni app ko npm run build ke sath build karte ho, to optimized files is folder mein generate hoti hain jo deploy hone ke liye ready hoti hain.
+
+/////////////////////
+import './App.css';
+
+const Person = (props) => {
+  return (
+    <>
+    <h1>Name: {props.name}</h1>
+    <h1>Last Name: {props.lastName}</h1>
+    <h1>Age: {props.age}</h1>
+    </>
+  )
+}
+
+const App = () => {
+  return (
+    <div className="App">
+       <Person name={'John'} lastName={'Do'} age={25}/>{/*props ko use krny k liye pehly attributes ko yahn define kro phir upar component me call kro, this is used for dynamic data input in react component or different set of data in same components*/}
+       <Person name={'Joe'} lastName={'Doe'} age={23}/>
+    </div>
+  );
+}
+
+export default App;
+
+
+////////////////////IMPORTANT INFO///
+never modify 'state' of 'useState' hook manually, for e.g:
+const App = () => {
+  const [counter, setCounter] = useState(0);
+  
+  useEffect(()=> {
+    counter = 100;//this is manually modifying the 'counter' state of useState which is forbidden in react
+
+    setCounter(100);this is correct way to modify the count of the counter in react
+
+  })
+  }
+  /////LEARNING SUMMARIZED///////
+  Components: Reusable building blocks of a React app.
+State: Internal data of a component, which can change over time and cause re-renders.
+Props: Data passed from parent to child components.
+useState: Hook for handling state in functional components.
+useEffect: Hook for handling side effects like data fetching, subscriptions, etc.
+
+
+1) Components
+Kya Hai?: React mein components woh building blocks hote hain jinke through tum apna UI (User Interface) banaate ho. Har component ek independent, reusable piece hota hai jo tumhare app ka ek specific part represent karta hai.
+2) State
+Kya Hai?: State React component mein ek special object hota hai jo us component ke data ko track karta hai. Jab state change hoti hai, to React automatically component ko re-render karta hai, aur tumhe manually DOM update nahi karna padta.
+3) Props
+Kya Hai?: Props (short for "properties") React mein wo arguments hote hain jo tum ek component se dusre component mein pass kar sakte ho. Yeh ek tarike ka data hota hai jo tum parent component se child component ko dete ho.
+
+useState Hook
+Kya Hai?: useState hook tumhe ek state variable aur usko update karne ka function provide karta hai. Yeh hook tum functional components mein state handle karne ke liye use karte ho.
+
+useEffect Hook
+Kya Hai?: useEffect hook React components mein side effects handle karne ke liye use hota hai, jaise ke data fetch karna, DOM update karna, ya phir timer set karna. Yeh hook component render hone ke baad execute hota hai.
+
+-useState is for keeping track of things that can change (like a score in a game).
+-useEffect is for reacting to those changes or for doing things when the webpage loads (like fetching data or updating the screen).
+
+-->Real-World Example:
+Imagine a webpage where you have a "Like" button. When you press it, the number of likes goes up, and a message pops up saying, "You liked this post!"
+
+useState would track the number of likes.
+useEffect would show the message every time you like the post.
+
+////////////COUNTER CODE///
+import { useState } from 'react';
+import './App.css';
+
+const App = () => {
+  const [counter, setCounter] = useState(0);
+  return (
+    <div className="App">
+       <button onClick={() => setCounter((prevCounter) => prevCounter - 1)}>-</button>
+       <h1>{counter}</h1>
+       <button onClick={() => setCounter((prevCounter) => prevCounter + 1)}>+</button>
+    </div>
+  );
+}
+
+export default App;
